@@ -1,25 +1,79 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import components
+import Input from './components/Input';
+import Output from './components/Output';
 
+// import mui elements
+import {
+  Container,
+  Box,
+  Typography
+} from '@mui/material';
+
+// import styles
+import { makeStyles } from '@mui/styles';
+
+// import useSelector hook
+import { useSelector } from 'react-redux';
+
+// import types
+import { RootState } from './app/store';
+
+// set colors
+export const colors = {
+  darkBlue: '#2196f3',
+  lightBlue: '#cfe8fc',
+  darkRed: '#f50057',
+  lightRed: '#fccfcf',
+  grey: '#424242',
+  white: '#fff'
+}
+
+// set styles
+const useStyles = makeStyles({
+  mainText: {
+    textAlign: 'center',
+    color: colors.white
+  },
+})
+
+// APP COMPONENT
 function App() {
+
+  // useSelector to change background color
+  const status = useSelector((state:RootState) => state.input.status)
+
+  //useStyles 
+  const classes = useStyles();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Container maxWidth="sm" >
+      <Box 
+        sx= {{
+          minHeight: '100vh',
+          backgroundColor: status === 'buy' 
+          ? colors.lightBlue 
+          : colors.lightRed
+         }}
+      >
+        {/* Main text element */}
+        <Typography
+          component="div" 
+          gutterBottom
+          className={classes.mainText}
+          sx= {{
+           backgroundColor: status === 'buy' ? 
+            colors.darkBlue 
+            : colors.darkRed
+           }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+         Trading calculator
+        </Typography>
+        {/* Input data container */}
+        <Input/>
+        {/* Output data container */}
+        <Output />
+      </Box>
+    </Container>
   );
 }
 
